@@ -1,0 +1,18 @@
+- index.html
+- public
+- readme.md
+- src
+  - App.jsx
+  - assets
+    - desktop.png
+    - localhost_5173_.png
+    - overview.jpg
+    - react.svg
+  - components
+    - GameBoard.jsx
+    - GameOver.jsx
+    - Log.jsx
+    - Player.jsx
+  - index.css
+  - index.jsx
+  - winning-compenations.js

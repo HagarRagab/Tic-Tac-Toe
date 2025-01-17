@@ -1,68 +1,46 @@
 import { useState } from "react";
-import { styled } from "styled-components";
 
-const Li = styled.li`
-    border: 2px solid transparent;
-    padding: 0.5rem;
-    border-radius: 4px;
-    font-weight: bold;
-
-    & .player-name {
-        display: inline-block;
-        width: 10rem;
-        font-size: 1rem;
-        color: #e1dec7;
-        text-transform: uppercase;
-        margin: 0;
-        padding: 0.5rem;
-        border-radius: 4px;
-        text-overflow: ellipsis;
-        text-align: center;
-    }
-
-    & input {
-        font: inherit;
-        font-size: 1rem;
-        width: 10rem;
-        border: none;
-        padding: 0.5rem;
-        animation: pulse-text 2s infinite;
-        background-color: #46432f;
-        text-align: center;
-        text-transform: uppercase;
-    }
-
-    & .player-symbol {
-        margin-left: 1rem;
-        font-size: 1rem;
-        color: #e1dec7;
-    }
-`;
-
-export default function Player({ symbol, isActive, playerName, onChange }) {
+export default function Player({
+    initialName,
+    symbol,
+    isActive,
+    onChangePlayerName,
+}) {
     const [isEditing, setIsEditing] = useState(false);
+    const [playerName, setPlayerName] = useState(initialName);
 
-    const handleEditName = function () {
-        setIsEditing((wasEditing) => !wasEditing);
+    const handleEditButton = function () {
+        // Updating state based on previous state
+        // setIsEditing(!isEditing); // Scedules updating state to true
+        setIsEditing((editing) => !editing); // Will gurantee to get the latest value of
+        if (isEditing) onChangePlayerName(symbol, playerName);
+    };
+    const handleChangeInput = function (e) {
+        setPlayerName(e.target.value);
     };
 
-    let playerNameEle = <span className="player-name">{playerName}</span>;
+    let playerNameElement = <span className="player-name">{playerName}</span>;
+
     if (isEditing)
-        playerNameEle = (
+        playerNameElement = (
             <input
+                className="player-name"
                 type="text"
                 value={playerName}
-                onChange={(e) => onChange(symbol, e.target.value)}
+                onChange={handleChangeInput}
+                required
             />
         );
 
     return (
-        <Li className={isActive ? "active" : ""}>
-            {playerNameEle}
-            <span className="player-symbol">{symbol}</span>
-            <button onClick={handleEditName}>
+        <li className={isActive ? "active" : ""}>
+            <span className="player">
+                {playerNameElement}
+                <span className="player-symbol">{symbol}</span>
+            </span>
+            <button onClick={handleEditButton}>
                 {isEditing ? "Save" : "Edit"}
             </button>
-        </Li>
+        </li>
     );
 }
